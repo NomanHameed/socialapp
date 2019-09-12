@@ -14,8 +14,13 @@
 use Illuminate\Support\Facades\Route;
 //use Illuminate\Routing\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('users', 'UserController@index');
+Route::post('/login','UserController@login');
+Route::get('users', 'UserController@index' )->name('profile');
 Route::post('/users','UserController@store');
+Route::post('/users/update', 'UserController@updateProfile')->name('profile.update');
+Route::get('/post','PostController@index');
+Route::post('/post','PostController@store')->name('create_post');
+Auth::routes();
+
+
+Route::get('/', 'HomeController@index')->name('home');

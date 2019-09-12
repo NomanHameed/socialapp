@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -14,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-
+        $posts = Post::all();
+        return view('post',compact('posts'));
     }
 
     /**
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,6 +38,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $postob = new Post();
+        $postob->text =  request('post_text');
+        $postob->user_id = Auth::user()->id;
+        $postob->save();
+
+        return back();
     }
 
     /**
