@@ -40,4 +40,8 @@ class User extends Authenticatable
     public function getImageAttribute(){
         return $this->profile_image;
     }
+    public function getImagePathAttribute(){
+        return asset('storage/tests/'. $this->profile_image);
+    }
+
 }

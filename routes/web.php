@@ -22,5 +22,20 @@ Route::get('/post','PostController@index');
 Route::post('/post','PostController@store')->name('create_post');
 Auth::routes();
 
+Route::get('storage/{filename}', function ($filename)
+{
+    $path = storage_path('app/upload/images/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    return $response;
+});
 
 Route::get('/', 'HomeController@index')->name('home');

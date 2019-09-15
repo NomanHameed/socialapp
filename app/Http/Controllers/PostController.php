@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,8 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::all()->where('user_id' , Auth::user()->id );
         return view('post',compact('posts'));
+
     }
 
     /**
@@ -40,10 +42,13 @@ class PostController extends Controller
         //
         $postob = new Post();
         $postob->text =  request('post_text');
+        if(request('image')){
+
+        }
         $postob->user_id = Auth::user()->id;
         $postob->save();
 
-        return back();
+        return redirect()->back()->with(['status' => 'Post Created successfully.']);
     }
 
     /**
